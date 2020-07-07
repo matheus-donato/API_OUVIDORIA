@@ -60,4 +60,4 @@ def classifica(texto):
     except Exception as e:
         return jsonify({"erro":e})
 
-app.run()
+app.run(port=5000)
