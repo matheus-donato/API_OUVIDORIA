@@ -1,8 +1,8 @@
 Flask==1.1.2
 sentencepiece==0.1.91
 ninja==1.10.0.post1
-https://download.pytorch.org/whl/cpu/torch-1.1.0-cp37-cp37m-linux_x86_64.whl
-https://download.pytorch.org/whl/cpu/torchvision-0.3.0-cp37-cp37m-linux_x86_64.whl
+torch==1.5.1+cpu 
+torchvision==0.6.1+cpu
 fastai==1.0.61
 numpy==1.18.5
 uwsgi
