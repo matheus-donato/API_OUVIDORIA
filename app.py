@@ -12,10 +12,12 @@ app = Flask(__name__)
 
 #é preciso definir qual será o tipo de solicitação entre a API e o usuário
 #usa um decorator para entender a solicitação
-@app.route('/classificacao/<string:texto>') 
+@app.route('/classificacao',methods = ["GET","POST"]) 
 #precisamos definir um método assim que usamos um decorator
-def classifica(texto):
+def classifica():
     
+    texto = request.args.get("texto")
+
     data_path = Config.data_path()
     name = f'ptwiki/models/tmp/'
     path_t = data_path/name
