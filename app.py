@@ -16,7 +16,8 @@ app = Flask(__name__)
 #precisamos definir um método assim que usamos um decorator
 def classifica():
     
-    texto = request.args.get("texto")
+    texto = request.get_data()
+    print(texto)
 
     data_path = Config.data_path()
     name = f'ptwiki/models/tmp/'
