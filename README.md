@@ -15,15 +15,16 @@ texto = """
 Os médicos do hospital Ronaldo Gazzola estão roubando medicamentos na maior cara de pau. O MPRJ precisa fazer algo em relação a isso!!
 """
 
-if isinstance(texto,str):
-    texto.encode("utf-8")
+texto = "Os hospitais da Caxias estão super lotados, os remedios sumiram junto com os médicos. O MP precisa fazer algo!!"
 
-url = f"https://api-ouvidoria.herokuapp.com/classificacao/texto={texto}"
+url = "https://api-ouvidoria.herokuapp.com/classificacao"
 
-payload = {}
-headers= {}
+payload = [{'texto': f"{texto}"}]
+headers = {
+    'Content-Type': 'application/json'
+    }
 
-response = requests.request("GET", url, headers=headers, data = payload)
+resultado = requests.request("POST", url, headers=headers, data = str(payload))
 
 resultado_json = json.loads(resultado.text)
 df = pd.DataFrame({"Promotoria": resultado_json["temas"],"Probabilidade":resultado_json["p"]})
