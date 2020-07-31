@@ -3,6 +3,7 @@ from fastai.text import Config, load_learner, Learner, Path, SPProcessor
 import torch
 from utils import _fix_sp_processor
 import numpy as np
+import boto3
 
 import os
 import shutil
@@ -15,9 +16,14 @@ app = Flask(__name__)
 @app.route('/classificacao',methods = ["GET","POST"]) 
 #precisamos definir um método assim que usamos um decorator
 def classifica():
+
+    if not os.path.exists('modelos/ouvidoria-18bs-32fp.pkl'):
+
+        s3_resource = boto3.resource('s3')
+        s3_resource.Object('api-ouvidoria','modelos/ouvidoria-18bs-32fp.pkl').download_file('modelos/ouvidoria-18bs-32fp.pkl')
+
     
     texto = request.get_data()
-    print(texto)
 
     data_path = Config.data_path()
     name = f'ptwiki/models/tmp/'
