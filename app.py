@@ -3,7 +3,6 @@ from flask_restful import Resource, Api, reqparse
 from flask_jwt import JWT, jwt_required
 from datetime import timedelta
 import pandas as pd
-import os
 
 from security import authenticate, identity
 from resources.user import UserRegister
