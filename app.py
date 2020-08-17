@@ -1,73 +1,82 @@
-from flask import Flask,jsonify, request
-from fastai.text import Config, load_learner, Learner, Path, SPProcessor
-import torch
-from utils import _fix_sp_processor
-import numpy as np
-import boto3
-
+from flask import Flask
+from flask_restful import Resource, Api, reqparse
+from flask_jwt import JWT, jwt_required
+from datetime import timedelta
+import pandas as pd
 import os
-import shutil
+
+from security import authenticate, identity
+from resources.user import UserRegister
+from resources.classificacao import ClassificacaoOuv, ClassificacaoOuvTema
+from models.tema import Tema, Subtemas
 
 #instânciar a classe do Flask e usar a função especial __name__ que gera um nome exclusivo 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['JWT_EXPIRATION_DELTA'] = timedelta(seconds=1800) #token expira depois de meia hora
+app.secret_key = "Inova"
+api = Api(app)
 
-#é preciso definir qual será o tipo de solicitação entre a API e o usuário
-#usa um decorator para entender a solicitação
-@app.route('/classificacao',methods = ["GET","POST"]) 
-#precisamos definir um método assim que usamos um decorator
-def classifica():
+temas = ['ambiente',
+        'cidadania',
+        'civil',
+        'consumidor',
+        'criminal',
+        'deficiencia',
+        'educacao',
+        'eleitoral',
+        'exec_penal',
+        'familia',
+        'idoso',
+        'infa_infra',
+        'infa_n_infra',
+        'mulher',
+        'outros',   
+        'prisional',     
+        'saude',
+        'urbanistica']   
 
-    if not os.path.exists('modelos/ouvidoria-18bs-32fp.pkl'):
+temas_certo = [
+    'Ambiente',
+    'Cidadania',
+    'Civil',
+    'Consumidor',
+    'Criminal',
+    'Deficiência',
+    'Educação',
+    'Eleitoral',
+    'Execução penal',
+    'Família',
+    'Idoso',
+    'Infância infracional',
+    'Infância não infracional',
+    'Mulher',
+    'Outros',
+    'Prisional',
+    'Saúde',
+    'Urbanística']
 
-        s3_resource = boto3.resource('s3')
-        s3_resource.Object('api-ouvidoria','modelos/ouvidoria-18bs-32fp.pkl').download_file('modelos/ouvidoria-18bs-32fp.pkl')
 
-    
-    texto = request.get_data()
+@app.before_first_request
+def create_tables():
+    if os.path.exists('data.db') is False:    
+        db.create_all()
+        #add temas
+        dados_subtemas = pd.read_excel('subtema.xlsx')
+        for tema, tema_certo in zip(temas, temas_certo):
+            Tema(tema, tema_certo).save_to_db()
+        #add subtemas
+        for tema, subtema in zip(dados_subtemas.tema, dados_subtemas.subtema):
+            Subtemas(tema, subtema).save_to_db()
 
-    data_path = Config.data_path()
-    name = f'ptwiki/models/tmp/'
-    path_t = data_path/name
-    path_t.mkdir(exist_ok=True, parents=True)
+jwt = JWT(app, authenticate, identity) #/auth
 
-    torch.device('cpu')
-            
-    model_path = 'modelos'
-    shutil.copy(model_path+'/spm.model', path_t)
-
-    model_filename = 'ouvidoria-18bs-32fp.pkl'
-
-    model = load_learner(path=model_path, file=model_filename)
-    _fix_sp_processor(learner=model,sp_path=Path(model_path),sp_model="spm.model",sp_vocab="spm.vocab")
-    
-    temas = ['cidadania',
-             'ambiente',
-             'criminal',
-             'consumidor',
-             'idoso',
-             'saude',
-             'educacao',
-             'urbanistica',
-             'juv_n_infra',
-             'tut_juv_n_infra',
-             'prisional',
-             'mulher',
-             'deficiencia',
-             'familia',
-             'juv_infra',
-             'eleitoral',
-             'exec_penal',
-             'civil',
-             'outros']    
-    
-    try:
-        preds = np.around(np.array(model.predict(texto)[2]),3)
-        preds = [float(p) for p in preds]
-
-        resultado = {"temas":temas, "p":preds} 
-        return jsonify(resultado)
-    except Exception as e:
-        return jsonify({"erro":e})
+api.add_resource(ClassificacaoOuv, '/ouvidoria')
+api.add_resource(ClassificacaoOuvTema, '/ouvidoria/temas')
+api.add_resource(UserRegister, '/register')
 
 if __name__ == "__main__":
+    from db import db
+    db.init_app(app)
     app.run(debug=True, port=5000)
