@@ -5,7 +5,7 @@ https://download.pytorch.org/whl/cpu/torch-1.1.0-cp36-cp36m-linux_x86_64.whl
 https://download.pytorch.org/whl/cpu/torchvision-0.3.0-cp36-cp36m-linux_x86_64.whl
 fastai==1.0.61
 numpy==1.18.5
-s3transfer==0.3.3
+boto3==1.14.31
 Flask-JWT==0.3.2
 Flask-RESTful==0.3.8
 Flask-SQLAlchemy==2.4.4
