@@ -1,31 +1,124 @@
 # API CLASSIFICAÇÃO DE TEMAS OUVIDORIA
 
-A partir dos dados da Ouvidoria do MPRJ, foi gerado um modelo de classificação multilabel para classificar os temas das denúncias. É utilizado o pacote Fast.ai para a criação do modelo, que foi exportado e será consumido por essa API.
+A partir dos dados da Ouvidoria do MPRJ, foi gerado um modelo de classificação multilabel para classificar os temas e subtemas a partir dos textos das denúncias. Há também como acessar diretamente o [WebApp](https://app-ouvidoria-subtemas.herokuapp.com/) que utiliza essa API para gerar os resultados.
 
-# Exemplo
 
-> Python
+## Fluxo de uso
+
+1. Crie um usuário;
+2. Gere um token de usuário com suas credenciais;
+3. Faça a requisição POST com o texto e receba as probabilidades de cada tema;
+4. Com os temas desejados, faça as requisições POST enviando o texto e tema no qual deseja obter os subtemas.
+
+## Temas disponíveis
+
+* 'ambiente',
+* 'cidadania',
+* 'civil',
+* 'consumidor',
+* 'criminal',
+* 'deficiencia',
+* 'educacao',
+* 'eleitoral',
+* 'exec_penal',
+* 'familia',
+* 'idoso',
+* 'infa_infra',
+* 'infa_n_infra',
+* 'mulher',
+* 'outros',   
+* 'prisional',     
+* 'saude',
+* 'urbanistica'
+
+É necessário passar o tema <span style="color:red">**exatamente**</span> como está descrito.
+
+
+## Exemplo
 
 ```
 import requests
 import pandas as pd
 import json
 
-texto = """ 
-Os médicos do hospital Ronaldo Gazzola estão roubando medicamentos na maior cara de pau. O MPRJ precisa fazer algo em relação a isso!!
-"""
+```
 
-texto = "Os hospitais da Caxias estão super lotados, os remedios sumiram junto com os médicos. O MP precisa fazer algo!!"
+```
+########################################
+#### Criando um registro de usuário ####
+########################################
 
-url = "https://api-ouvidoria.herokuapp.com/classificacao"
+reg_ url = https://api-ouvidoria.herokuapp.com/register
 
-payload = [{'texto': f"{texto}"}]
+payload = "{
+    "username":<your-username>,
+    "password":<your-password>,
+    "acesso":2}"
+
+headers = {'Content-Type': 'application/json'}
+
+response = requests.request("POST", url, headers=headers, data = payload)
+
+print(response.text.encode('utf8'))
+
+```
+
+```
+################################################################
+#### Gera o token para enviar a requisição de classificação ####
+################################################################
+
+token_url = "https://api-ouvidoria.herokuapp.com/auth"
+
+payload = "{"username": "Inova","password":"inova*mprj1"}"
+
+response = requests.request("POST", url, headers=headers, data = payload)
+
+print(response.text.encode('utf8'))
+
+```
+
+```
+##################################
+#### Classifica tema do texto ####
+##################################
+
+tema_url = "http://api-ouvidoria.herokuapp.com/ouvidoria"
+
 headers = {
-    'Content-Type': 'application/json'
-    }
+  'texto': '<texto>',
+  'Authorization': 'JWT <token>'
+}
 
-resultado = requests.request("POST", url, headers=headers, data = str(payload))
+response = requests.request("POST", url, headers=headers)
 
+print(response.text.encode('utf8'))
+
+#Resultado no formato de Dataframe
+
+resultado_json = json.loads(resultado.text)
+df = pd.DataFrame({"Promotoria": resultado_json["temas"],"Probabilidade":resultado_json["p"]})
+
+```
+
+```
+######################################
+#### Classifica subtema do texto #####
+######################################
+
+url = "http://api-ouvidoria.herokuapp.com/ouvidoria/temas"
+
+headers = {
+  'texto': '<texto>',
+  'tema': '<tema>',
+  'Authorization': 'JWT <token>'
+}
+
+response = requests.request("POST", url, headers=headers, data = payload)
+
+print(response.text.encode('utf8'))
+
+#Resultado no formato de Dataframe
 resultado_json = json.loads(resultado.text)
 df = pd.DataFrame({"Promotoria": resultado_json["temas"],"Probabilidade":resultado_json["p"]})
 ```
