@@ -72,7 +72,7 @@ token_url = "https://api-ouvidoria.herokuapp.com/auth"
 
 payload = '{"username": "Inova","password":"inova*mprj1"}'
 
-response = requests.request("POST", url, headers=headers, data = payload)
+response = requests.request("POST", token_url, headers=headers, data = payload)
 
 print(response.text.encode('utf8'))
 
@@ -90,7 +90,7 @@ headers = {
   'Authorization': 'JWT <token>'
 }
 
-response = requests.request("POST", url, headers=headers)
+response = requests.request("POST", tema_url, headers=headers)
 
 print(response.text.encode('utf8'))
 
