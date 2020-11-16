@@ -48,7 +48,7 @@ import json
 #### Criando um registro de usuário ####
 ########################################
 
-reg_ url = https://api-ouvidoria.herokuapp.com/register
+reg_url = "https://api-ouvidoria.herokuapp.com/register"
 
 payload = '{
     "username":<your-username>,
@@ -57,7 +57,7 @@ payload = '{
 
 headers = {'Content-Type': 'application/json'}
 
-response = requests.request("POST", url, headers=headers, data = payload)
+response = requests.request("POST", reg_url, headers=headers, data = payload)
 
 print(response.text.encode('utf8'))
 
