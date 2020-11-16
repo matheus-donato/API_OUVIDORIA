@@ -50,10 +50,10 @@ import json
 
 reg_ url = https://api-ouvidoria.herokuapp.com/register
 
-payload = "{
+payload = '{
     "username":<your-username>,
     "password":<your-password>,
-    "acesso":2}"
+    "acesso":2}'
 
 headers = {'Content-Type': 'application/json'}
 
@@ -70,7 +70,7 @@ print(response.text.encode('utf8'))
 
 token_url = "https://api-ouvidoria.herokuapp.com/auth"
 
-payload = "{"username": "Inova","password":"inova*mprj1"}"
+payload = '{"username": "Inova","password":"inova*mprj1"}'
 
 response = requests.request("POST", url, headers=headers, data = payload)
 
