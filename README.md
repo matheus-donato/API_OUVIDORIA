@@ -123,4 +123,21 @@ resultado_json = json.loads(resultado.text)
 df = pd.DataFrame({"Promotoria": resultado_json["temas"],"Probabilidade":resultado_json["p"]})
 ```
 
+## Bibliotecas utilizadas na API
+* Flask,
+* sentencepiece,
+* ninja,
+* fastai
+* numpy,
+* Boto3,
+* Flask-JWT,
+* Flask-RESTful,
+* FLask-SQLAlchemy,
+* DateTime,
+* xlrd,
+* uwsgi,
+* pytorch.
+
+As versões empregadas encontram-se no arquivo [requirements.txt](https://github.com/matheus-donato/API_OUVIDORIA/blob/master/requirements.txt) para facilitação da instalação.
+
 
