@@ -96,7 +96,7 @@ print(response.text.encode('utf8'))
 
 #Resultado no formato de Dataframe
 
-resultado_json = json.loads(resultado.text)
+resultado_json = json.loads(response.text)
 df = pd.DataFrame({"Promotoria": resultado_json["temas"],"Probabilidade":resultado_json["p"]})
 
 ```
@@ -119,7 +119,7 @@ response = requests.request("POST", url, headers=headers, data = payload)
 print(response.text.encode('utf8'))
 
 #Resultado no formato de Dataframe
-resultado_json = json.loads(resultado.text)
+resultado_json = json.loads(response.text)
 df = pd.DataFrame({"Promotoria": resultado_json["temas"],"Probabilidade":resultado_json["p"]})
 ```
 
