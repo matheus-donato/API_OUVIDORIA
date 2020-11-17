@@ -3,6 +3,7 @@
 # API CLASSIFICAÇÃO DE TEMAS OUVIDORIA
 
 Esta Api foi criada para classificar em temas e subtemas denúcias na forma de textos escritos. As denúcias são provenientes da [Ouvidoria](https://www.mprj.mp.br/comunicacao/ouvidoria) do [MPRJ](http://www.mprj.mp.br/) e foram utilizadas para treinar um modelo multilabel por meio do [PyTorch](https://pytorch.org/).
+
 As denúcias são classificas em dezessete temas e subtemas.
 
 ### Os temas disponíveis
@@ -42,6 +43,11 @@ Estevan Augusto.
 
 ## Guia Rápido
 
+A API realiza 4 operações principais a partir de post's nas dadas url's. Essas operações são: Cadastramento, liberação de token, classifiação de temas e subtemas.
+
+Pode-se caracterizar o fluxo de trabalho a partir do exemplo abaixo:
+
+### 1) Cadastramento
 ```
 import requests
 import pandas as pd
@@ -68,6 +74,7 @@ response = requests.request("POST", reg_url, headers=headers, data = payload)
 print(response.text.encode('utf8'))
 
 ```
+### Liberação de token
 
 ```
 ################################################################
@@ -83,7 +90,7 @@ response = requests.request("POST", token_url, headers=headers, data = payload)
 print(response.text.encode('utf8'))
 
 ```
-
+### Classifiação de temas
 ```
 ##################################
 #### Classifica tema do texto ####
@@ -106,6 +113,7 @@ resultado_json = json.loads(response.text)
 df = pd.DataFrame({"Promotoria": resultado_json["temas"],"Probabilidade":resultado_json["p"]})
 
 ```
+### Classificação de Subtemas
 
 ```
 ######################################
@@ -149,6 +157,7 @@ df = pd.DataFrame({"Promotoria": resultado_json["temas"],"Probabilidade":resulta
 * 'prisional',     
 * 'saude',
 * 'urbanistica'.
+
 
 
 ## Autenticação da API
