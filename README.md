@@ -31,14 +31,6 @@ As denúcias são classificas em dezessete temas e subtemas.
 
 Esta API dispõe de um [Webapp](https://app-ouvidoria-subtemas.herokuapp.com/) gerado no streamlink. Os códigos e mais detalhes podem ser obtidos através de sua pasta no [github](https://github.com/matheus-donato/APP_OUVIDORIA).
 
-## Créditos
-Este protótipo foi produzido pelo laboratório de Inovação do MPRJ, o [INOVA_MPRJ](http://www.mprj.mp.br/inova).
-A equipe de ciência de dados é constituida por:
-[Matheus Donato](matheus.donato@mprj.mp.br) que desenvolveu este projeto,
-[Bernardo Baron](bernardo.baron@mprj.mp.br),
-Estevan Augusto.
-
-![logo_inova](https://www.google.com/url?sa=i&url=http%3A%2F%2Fwww.mprj.mp.br%2Finova&psig=AOvVaw0rD3jaxoZ96HAQEoeKizzX&ust=1605367991210000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCJDOi_nr_-wCFQAAAAAdAAAAABAO)
 
 
 ## Guia Rápido
@@ -216,4 +208,12 @@ print(response.text.encode('utf8'))
 
 As versões empregadas encontram-se no arquivo [requirements.txt](https://github.com/matheus-donato/API_OUVIDORIA/blob/master/requirements.txt) para facilitação da instalação.
 
+## Créditos
+Este protótipo foi produzido pelo laboratório de Inovação do MPRJ, o [INOVA_MPRJ](http://www.mprj.mp.br/inova).
+A equipe de ciência de dados é constituida por:
+[Matheus Donato](matheus.donato@mprj.mp.br) que desenvolveu este projeto,
+[Bernardo Baron](bernardo.baron@mprj.mp.br),
+Estevan Augusto.
+
+![logo_inova](https://www.google.com/url?sa=i&url=http%3A%2F%2Fwww.mprj.mp.br%2Finova&psig=AOvVaw0rD3jaxoZ96HAQEoeKizzX&ust=1605367991210000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCJDOi_nr_-wCFQAAAAAdAAAAABAO)
 
