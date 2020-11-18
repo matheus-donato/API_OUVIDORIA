@@ -215,5 +215,5 @@ A equipe de ciência de dados é constituida por:
 [Bernardo Baron](bernardo.baron@mprj.mp.br),
 Estevan Augusto.
 
-![logo_inova](https://www.google.com/url?sa=i&url=http%3A%2F%2Fwww.mprj.mp.br%2Finova&psig=AOvVaw0rD3jaxoZ96HAQEoeKizzX&ust=1605367991210000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCJDOi_nr_-wCFQAAAAAdAAAAABAO)
+![logo_inova](https://github.com/estevanmendes/APP_OUVIDORIA/blob/master/images/logo_azul_horizontal-05.png)
 
